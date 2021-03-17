@@ -1,11 +1,13 @@
 'use strict';
 const CareerPage = require("../../pageObjects/careerPage");
 const careerPage = new CareerPage();
+const data = require('../../testData.json');
+const utils = require('../../utils');
 
 
 describe('Search for job', function () {
     this.timeout(GLOBAL_TIMEOUT);
-
+    const testData = utils.getRandomData(data.jobSearchDetails);
     beforeEach(() => careerPage.load())
 
     describe('Careers page', () => {
@@ -21,32 +23,32 @@ describe('Search for job', function () {
 
         describe('Location filter box', () => {
             beforeEach(() => {
-                return careerPage.selectCityInCountry('Hungary', 'Debrecen');
+                return careerPage.selectCityInCountry(testData.country, testData["city"]);
             });
 
             it('should provide a way to filter to a specific location', () => {
-                return expect(careerPage.getSelectedCity()).to.eventually.equal('Debrecen');
+                return expect(careerPage.getSelectedCity()).to.eventually.equal(testData["city"]);
             });
         });
 
         describe('Department filter box', () => {
             beforeEach(() => {
-                return careerPage.toggleDepartment('Software Test Engineering');
+                return careerPage.toggleDepartment(testData["department"]);
             });
 
             it('should provide a way to filter to a specific department', () => {
-                return expect(careerPage.selectedDepartments.getText()).to.eventually.contain('SOFTWARE TEST ENGINEERING');
+                return expect(careerPage.selectedDepartments.getText()).to.eventually.contain(testData["department"].toUpperCase());
             });
         });
 
-        describe.only('Searching', () => {
+        describe('Searching', () => {
             let position;
-
+            
             beforeEach(() => {
-                careerPage.selectCityInCountry('Hungary', 'Debrecen');
-                careerPage.toggleDepartment('Software Test Engineering');
+                careerPage.selectCityInCountry(testData["country"], testData["city"]);
+                careerPage.toggleDepartment(testData["department"]);
                 return careerPage.search().then(() => {
-                    position = careerPage.getResultByPosition('Test Automation Engineer');
+                    position = careerPage.getResultByPosition(testData["positionName"]);
                 });
             });
 
@@ -55,7 +57,7 @@ describe('Search for job', function () {
             });
 
             it('should have job with proper location', () => {
-                return expect(careerPage.locationOfPosition(position).getText()).to.eventually.include("DEBRECEN");
+                return expect(careerPage.locationOfPosition(position).getText()).to.eventually.include(testData["city"].toUpperCase());
             });
 
             it('should have apply button for job', () => {
@@ -64,11 +66,11 @@ describe('Search for job', function () {
 
             describe('Applying to position', () => {
                 beforeEach(() => {
-                    careerPage.applyButtonOfPosition(position).click();
+                    careerPage.applyForPosition(position);
                 });
 
                 it('should have proper position name in the description', () => {
-                    expect(careerPage.jobDescription.getText()).to.eventually.include("Test Automation Engineer");
+                    expect(careerPage.jobDescription.getText()).to.eventually.include(testData["positionName"]);
                 });
             });
         });
