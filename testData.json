@@ -1,0 +1,16 @@
+{
+  "jobSearchDetails": [
+    {
+      "country": "Hungary",
+      "city": "Debrecen",
+      "department": "Software Test Engineering",
+      "positionName": "Test Automation Engineer"
+    },
+    {
+      "country": "Belarus",
+      "city": "Minsk",
+      "department": "Software Architecture",
+      "positionName": "Azure Architect"
+    }
+  ]
+}
