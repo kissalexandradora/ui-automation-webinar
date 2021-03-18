@@ -12,8 +12,10 @@ class CareerPage {
         this.getCityOfLocation = city => element(by.cssContainingText('#select2-new_form_job_search_1445745853_copy-location-results > li > ul > li', city));
 
         this.departmentSelect = this.searchForm.element(by.css('div:nth-child(3) > div > div.selected-params'));
-        this.getDepartmentCheckbox = department => element(by.cssContainingText('div.multi-select-dropdown > ul:nth-child(2) > li > label', department))
+        this.getDepartmentText = department => element(by.cssContainingText('.checkbox-custom-label', department));
+        this.getDepartmentCheckbox = department => element(by.cssContainingText('div.multi-select-dropdown > ul:nth-child(2) > li > label span', department));
         this.selectedDepartments = element.all(by.css('li.filter-tag'));
+        this.departmentDropdown = element(by.css('.multi-select-dropdown'));
 
         this.searchResultItems = element.all(by.css('.search-result__list'));
         this.nameOfPosition = position => position.element(by.css('.search-result__item-name'));
@@ -23,7 +25,6 @@ class CareerPage {
         this.waitForPositionVisibility = item => browser.wait(ec.visibilityOf(this.nameOfPosition(item)), GLOBAL_TIMEOUT);
 
         /**
-         *
          * @param name: The position that we search for.
          * @returns {*|ElementFinder}
          * Finds the position with the specified name, from the list of positions.
@@ -46,7 +47,7 @@ class CareerPage {
         const cookieButton = this.acceptCookiesButton;
         return browser.wait(ec.elementToBeClickable(cookieButton), 500).then(() => {
             cookieButton.click();
-        }, e => {});
+        }, e => {console.log("Cookie bar is not visible.")});
     }
 
     /**
@@ -61,11 +62,12 @@ class CareerPage {
     }
 
     /**
+     * This function made for the test automation of search bar in the careers page.
+     * If the location filter box is not open opens it and click the specified country and city.
+     *
      * @param county: The name of the country we want to search for.
      * @param city: The name of the city we want to search for.
      * @returns {promise.Promise<void>}
-     * This function made for the test automation of search bar in the careers page.
-     * If the location filter box is not open opens it and click the specified country and city.
      */
     selectCityInCountry(county, city) {
         const countryOption = this.getCountryOfLocation(county);
@@ -84,21 +86,41 @@ class CareerPage {
     }
 
     /**
+     * Returns if the department dropdown is displayed.
+     *
+     * @returns {promise.Promise<boolean>}
+     */
+    isDepartmentDropdownDisplayed() {
+        return this.departmentDropdown.isDisplayed();
+    }
+
+    /**
+     * Opens the department dropdown if the departments are not visible.
+     *
+     * @returns {promise.Promise<void>}
+     */
+    clickDepartmentDropdown() {
+        return this.isDepartmentDropdownDisplayed().then(async displayed => {
+            if (!displayed) {
+                await this.departmentSelect.click();
+            }
+        });
+    }
+
+    /**
+     * Checks if the specified department is displayed.
+     * If it's displayed click it. If not, opens the toggle and click it.
      *
      * @param department
      * @returns {promise.Promise<void>}
-     * Checks if the specified department is displayed.
-     * If it's displayed click it. If not, opens the toggle and click it.
      */
-    toggleDepartment(department) {
+    async toggleDepartment(department) {
+        this.clickDepartmentDropdown()
+        browser.wait(ec.visibilityOf(this.departmentDropdown), GLOBAL_TIMEOUT);
         const departmentCheckbox = this.getDepartmentCheckbox(department);
-        departmentCheckbox.isDisplayed().then(displayed => {
-            if (!displayed) {
-                this.departmentSelect.click();
-            }
-        }, e => this.departmentSelect.click());
-        browser.wait(ec.visibilityOf(departmentCheckbox), GLOBAL_TIMEOUT);
-        return departmentCheckbox.click();
+        browser.sleep(1000);
+        await departmentCheckbox.click();
+        return browser.sleep(1000);
     }
 
     getSelectedCity() {

@@ -8,6 +8,7 @@ const utils = require('../../utils');
 describe('Search for job', function () {
     this.timeout(GLOBAL_TIMEOUT);
     const testData = utils.getRandomData(data.jobSearchDetails);
+    console.log(testData)
     beforeEach(() => careerPage.load())
 
     describe('Careers page', () => {
@@ -23,7 +24,7 @@ describe('Search for job', function () {
 
         describe('Location filter box', () => {
             beforeEach(() => {
-                return careerPage.selectCityInCountry(testData.country, testData["city"]);
+                return careerPage.selectCityInCountry(testData["country"], testData["city"]);
             });
 
             it('should provide a way to filter to a specific location', () => {
@@ -43,7 +44,7 @@ describe('Search for job', function () {
 
         describe('Searching', () => {
             let position;
-            
+
             beforeEach(() => {
                 careerPage.selectCityInCountry(testData["country"], testData["city"]);
                 careerPage.toggleDepartment(testData["department"]);
