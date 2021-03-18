@@ -10,7 +10,7 @@ exports.config = {
     directConnect: true,
     cucumberOpts: {
         require: ['./step_definitions/**/*.js'],
-        tags: ['~@wip'],
+        tags: ['~@wip', '@current'],
         format: ['progress', 'json:cucumber.json']
     },
     framework: 'custom',
@@ -23,6 +23,15 @@ exports.config = {
         const chai = require('chai');
         chai.use(require('chai-as-promised'));
         global.expect = chai.expect;
+
+        protractor.ElementFinder.prototype.isVisible = function () {
+            return this.isPresent().then(present => {
+                if (present) {
+                    return this.isDisplayed();
+                }
+                return false;
+            })
+        };
 
         await browser.waitForAngularEnabled(false);
         try {

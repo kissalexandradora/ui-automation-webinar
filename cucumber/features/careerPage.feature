@@ -3,15 +3,15 @@ Feature: EPAM job searching
   I want to browser through EPAM Job offers by various criteria
   So I can find to best fitting offer for me
 
+  @current
   Scenario Outline: Searching for a job - <PositonName>
     Given the career page is opened
     Then the logo should be visible
+    And the cookie bar should be hidden
     And the search form should be visible
 
     When <City>, <Country> is selected in the location filter box
-    Then <City> should be selected in the location filter box:
-    | asdasd |
-    | asdasd |
+    Then <City> should be selected in the location filter box
 
     When <Department> is selected in the department filter box
     Then <Department> should be selected in the department filter box

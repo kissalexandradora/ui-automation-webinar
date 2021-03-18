@@ -12,7 +12,6 @@ class CareerPage {
         this.getCityOfLocation = city => element(by.cssContainingText('#select2-new_form_job_search_1445745853_copy-location-results > li > ul > li', city));
 
         this.departmentSelect = this.searchForm.element(by.css('div:nth-child(3) > div > div.selected-params'));
-        this.getDepartmentText = department => element(by.cssContainingText('.checkbox-custom-label', department));
         this.getDepartmentCheckbox = department => element(by.cssContainingText('div.multi-select-dropdown > ul:nth-child(2) > li > label span', department));
         this.selectedDepartments = element.all(by.css('li.filter-tag'));
         this.departmentDropdown = element(by.css('.multi-select-dropdown'));
@@ -36,6 +35,7 @@ class CareerPage {
 
         this.jobDescription = element(by.css('.recruiting-page__top-description strong'));
         this.acceptCookiesButton = element(by.css('.cookie-disclaimer__button'));
+        this.cookieBanner = element(by.css('.cookie-disclaimer-ui'));
     }
 
     /**
