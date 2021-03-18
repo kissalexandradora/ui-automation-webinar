@@ -2,18 +2,18 @@
 
 class CareerPage {
     constructor() {
-        this.logo = element(by.css('a.header__logo-container'));
+        this.logo = element(by.css('.header__logo-container'));
         this.searchForm = element(by.css('.job-search__form'));
         this.searchButton = this.searchForm.element(by.css('.recruiting-search__submit'));
 
-        this.locationFilterBox = this.searchForm.element(by.css('.selection .select2-selection'));
+        this.locationFilterBox = this.searchForm.element(by.css('.select2-selection'));
         this.selectedLocation = element(by.css('.select2-selection__rendered'));
-        this.getCountryOfLocation = country => element(by.cssContainingText('#select2-new_form_job_search_1445745853_copy-location-results > li > strong', country));
+        this.getCountryOfLocation = country => element(by.cssContainingText('li > strong', country));
         this.getCityOfLocation = city => element(by.cssContainingText('#select2-new_form_job_search_1445745853_copy-location-results > li > ul > li', city));
 
-        this.departmentSelect = this.searchForm.element(by.css('div:nth-child(3) > div > div.selected-params'));
-        this.getDepartmentCheckbox = department => element(by.cssContainingText('div.multi-select-dropdown > ul:nth-child(2) > li > label span', department));
-        this.selectedDepartments = element.all(by.css('li.filter-tag'));
+        this.departmentSelect = this.searchForm.element(by.css('.selected-params'));
+        this.getDepartmentCheckbox = department => element(by.cssContainingText('ul:nth-child(2) > li > label span', department));
+        this.selectedDepartments = element.all(by.css('.filter-tag'));
         this.departmentDropdown = element(by.css('.multi-select-dropdown'));
 
         this.searchResultItems = element.all(by.css('.search-result__list'));
