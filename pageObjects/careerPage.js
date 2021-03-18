@@ -24,9 +24,10 @@ class CareerPage {
         this.waitForPositionVisibility = item => browser.wait(ec.visibilityOf(this.nameOfPosition(item)), GLOBAL_TIMEOUT);
 
         /**
+         * Finds the position with the specified name, from the list of positions.
+         *
          * @param name: The position that we search for.
          * @returns {*|ElementFinder}
-         * Finds the position with the specified name, from the list of positions.
          */
         this.getResultByPosition = name => this.searchResultItems.filter(item => {
             this.waitForPositionVisibility(item);
@@ -41,6 +42,7 @@ class CareerPage {
     /**
      * Waits 0.5 sec for the cookie bar and if it's append accept it.
      * If the cookie bar not appends continues the test load.
+     *
      * @returns {PromiseLike<void>}
      */
     acceptCookies() {
@@ -51,9 +53,10 @@ class CareerPage {
     }
 
     /**
-     * @returns {PromiseLike<void>}
      * Load the webpage and waits for the logo to be clickable.
      * If the page is loaded, checks the cookie bar and accept is if necessary.
+     *
+     * @returns {PromiseLike<void>}
      */
     load() {
         browser.get('https://www.epam.com/careers');
@@ -128,8 +131,9 @@ class CareerPage {
     }
 
     /**
-     * @returns {promise.Promise<boolean>}
      * Clicks the search button and checks that is there any result.
+     *
+     * @returns {promise.Promise<boolean>}
      */
     search() {
         this.searchButton.click();
@@ -139,10 +143,10 @@ class CareerPage {
     }
 
     /**
+     * Apply for the specified position and checks that the description is correct.
      *
      * @param position: The position that we want to apply for.
      * @returns {WebElementPromise}
-     * Apply for the specified position and checks that the description is correct.
      */
     applyForPosition(position) {
         this.applyButtonOfPosition(position).click();
