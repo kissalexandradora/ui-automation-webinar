@@ -68,12 +68,12 @@ class CareerPage {
      * This function made for the test automation of search bar in the careers page.
      * If the location filter box is not open opens it and click the specified country and city.
      *
-     * @param county: The name of the country we want to search for.
+     * @param country: The name of the country we want to search for.
      * @param city: The name of the city we want to search for.
      * @returns {promise.Promise<void>}
      */
-    selectCityInCountry(county, city) {
-        const countryOption = this.getCountryOfLocation(county);
+    selectCityInCountry(country, city) {
+        const countryOption = this.getCountryOfLocation(country);
         countryOption.isDisplayed().then(displayed => {
             if (!displayed) {
                 this.locationFilterBox.click();
