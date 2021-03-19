@@ -126,6 +126,11 @@ class CareerPage {
         return browser.sleep(1000);
     }
 
+    /**
+     * Gets the text from the selected location.
+     *
+     * @returns {promise.Promise<string>}
+     */
     getSelectedCity() {
         return this.selectedLocation.getText();
     }
