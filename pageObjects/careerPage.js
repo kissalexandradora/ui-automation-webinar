@@ -65,8 +65,74 @@ class CareerPage {
     }
 
     /**
+     * Return with a promise, that resolves if the location is displayed
+     * and rejects if the location is not displayed.
+     *
+     * @param location
+     * @returns {PromiseLike<void>}
+     */
+    isDisplayed(location) {
+        return location.isDisplayed();
+    }
+
+    /**
+     * If the country is not displayed in the location filter box
+     * or if the promise is rejected click the location filter box.
+     *
+     * @param countryOption
+     * @returns {PromiseLike<void | void>}
+     */
+    clickLocationFilterBox(countryOption) {
+        return this.isDisplayed(countryOption).then(displayed => {
+            if (!displayed) {
+                this.locationFilterBox.click();
+            }
+        }, e => this.locationFilterBox.click());
+    }
+
+    /**
+     * If the city is not displayed in the location filter box
+     * or if the promise is rejected clicks the country option.
+     *
+     * @param cityOption
+     * @param countryOption
+     * @returns {PromiseLike<void>}
+     */
+    clickCountryOption(cityOption, countryOption) {
+        return this.isDisplayed(cityOption).then(displayed => {
+            if (!displayed) {
+                countryOption.click();
+            }
+        }, e => countryOption.click());
+    }
+
+    /**
+     * Waits for the specified time.
+     *
+     * @param sec: Waiting time in second.
+     * @returns {promise.Promise<void>}
+     */
+    wait(sec) {
+        return browser.sleep(sec * 1000)
+    }
+
+    /**
+     * Scrolls to the specified element.
+     *
+     * @param element
+     * @returns {promise.Promise<void>}
+     */
+    scrollToElement(element) {
+        this.wait(2);
+        browser.actions().mouseMove(element).perform();
+        return this.wait(2);
+    }
+
+    /**
      * This function made for the test automation of search bar in the careers page.
-     * If the location filter box is not open opens it and click the specified country and city.
+     * If the location filter box is not open opens it.
+     * Scrolls to the specified city and clicks it.
+     * If the city is not displayed clicks to the city dropdown and selects the specified city.
      *
      * @param country: The name of the country we want to search for.
      * @param city: The name of the city we want to search for.
@@ -74,17 +140,10 @@ class CareerPage {
      */
     selectCityInCountry(country, city) {
         const countryOption = this.getCountryOfLocation(country);
-        countryOption.isDisplayed().then(displayed => {
-            if (!displayed) {
-                this.locationFilterBox.click();
-            }
-        }, e => this.locationFilterBox.click());
+        this.clickLocationFilterBox(countryOption);
+        this.scrollToElement(countryOption);
         const cityOption = this.getCityOfLocation(city);
-        cityOption.isDisplayed().then(displayed => {
-            if (!displayed) {
-                countryOption.click();
-            }
-        }, e => countryOption.click());
+        this.clickCountryOption(cityOption, countryOption);
         return cityOption.click();
     }
 
