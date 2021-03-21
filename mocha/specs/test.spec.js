@@ -58,7 +58,7 @@ describe('Search for job', function () {
             });
 
             it('should have job with proper location', () => {
-                return expect(careerPage.locationOfPosition(position).getText()).to.eventually.include(testData["city"].toUpperCase());
+                return expect(careerPage.locationOfPosition(position).getText()).to.eventually.include(testData["country"].toUpperCase());
             });
 
             it('should have apply button for job', () => {
