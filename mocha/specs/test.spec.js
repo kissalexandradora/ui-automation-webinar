@@ -1,7 +1,7 @@
 'use strict';
 const CareerPage = require("../../pageObjects/careerPage");
 const careerPage = new CareerPage();
-const data = require('../../testData.json');
+const data = require('../../data/testData.json');
 const utils = require('../../utils');
 
 
