@@ -3,7 +3,7 @@
 const GLOBAL_TIMEOUT = 40e3;
 
 exports.config = {
-    specs: 'features/**/*.feature',
+    specs: './features/**/*.feature',
     capabilities: {
         browserName: 'chrome'
     },
