@@ -1,6 +1,6 @@
 'use strict';
 
-const {Given, When, Then, setDefaultTimeout} = require('cucumber');
+const { Given, When, Then, setDefaultTimeout } = require('cucumber');
 const CareerPage = require('../../pageObjects/careerPage');
 const careerPage = new CareerPage();
 
@@ -23,6 +23,9 @@ When(/^the search button is clicked$/, () => {
 });
 
 When(/^the apply button of the (.+) position is clicked on$/, positionName => {
+    const position = careerPage.getResultByPosition(positionName);
+    careerPage.applyForPosition(position);
+    return browser.wait(ec.visibilityOf(careerPage.jobDescription), GLOBAL_TIMEOUT);
 });
 
 Then(/^the logo should be visible$/, () => {
@@ -53,11 +56,9 @@ Then(/^there should be a job offer for (.+) position$/, positionName => {
 Then(/^the location of the (.+) position should be (.+)$/, (positionName, country) => {
     const position = careerPage.getResultByPosition(positionName);
     return expect(careerPage.locationOfPosition(position)
-        .getText()).to.eventually.include(country.toUpperCase());
+        .getText()).to.eventually.contain(country.toUpperCase());
 });
 
 Then(/^the description of the job offer should contain the (.+) position name$/, positionName => {
-    const position = careerPage.getResultByPosition(positionName);
-    careerPage.applyForPosition(position);
-    return expect(careerPage.jobDescription.getText()).to.eventually.include(positionName);
+    return expect(careerPage.jobDescription.getText()).to.eventually.contain(positionName);
 });

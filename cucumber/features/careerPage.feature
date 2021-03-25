@@ -1,4 +1,3 @@
-@current
 Feature: EPAM job searching
   As a Job searcher
   I want to browser through EPAM Job offers by various criteria
