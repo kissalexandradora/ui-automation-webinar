@@ -49,7 +49,7 @@ class CareerPage {
         const cookieButton = this.acceptCookiesButton;
         try {
             await browser.wait(ec.elementToBeClickable(cookieButton), 500);
-            await cookieButton.click();
+            return cookieButton.click();
         } catch (error) {
             console.log("Cookie bar is not visible.");
         }
@@ -65,7 +65,7 @@ class CareerPage {
         await browser.get('https://www.epam.com/careers');
         await expect(browser.getCurrentUrl()).to.eventually.equal('https://www.epam.com/careers');
         await browser.wait(ec.elementToBeClickable(this.logo), GLOBAL_TIMEOUT);
-        await this.acceptCookies();
+        return this.acceptCookies();
     }
 
     /**
@@ -90,10 +90,10 @@ class CareerPage {
         try {
             const displayed = await this.isLocationDisplayed(countryOption);
             if (!displayed) {
-                await this.locationFilterBox.click();
+                return this.locationFilterBox.click();
             }
         } catch (error) {
-            await this.locationFilterBox.click();
+            return this.locationFilterBox.click();
         }
     }
 
@@ -109,10 +109,10 @@ class CareerPage {
         try {
             const displayed = await this.isLocationDisplayed(cityOption);
             if (!displayed) {
-                await countryOption.click();
+                return countryOption.click();
             }
         } catch (error) {
-            await countryOption.click();
+            return countryOption.click();
         }
     }
 
@@ -135,7 +135,7 @@ class CareerPage {
     async scrollToElement(element) {
         this.wait(2);
         await browser.actions().mouseMove(element).perform();
-        await this.wait(2);
+        return this.wait(2);
     }
 
     /**
@@ -154,7 +154,7 @@ class CareerPage {
         await this.scrollToElement(countryOption);
         const cityOption = this.getCityOfLocation(city);
         await this.clickCountryOption(cityOption, countryOption);
-        await cityOption.click();
+        return cityOption.click();
     }
 
     /**
@@ -174,7 +174,7 @@ class CareerPage {
     async clickDepartmentDropdown() {
         const displayed = await this.isDepartmentDropdownDisplayed();
         if (!displayed) {
-            await this.departmentSelect.click();
+            return this.departmentSelect.click();
         }
     }
 
@@ -189,13 +189,13 @@ class CareerPage {
         this.clickDepartmentDropdown();
         await browser.wait(ec.visibilityOf(this.departmentDropdown), GLOBAL_TIMEOUT);
         const departmentCheckbox = this.getDepartmentCheckbox(department);
-        await browser.sleep(1000);
+        await this.wait(1);
         await departmentCheckbox.click();
-        await browser.sleep(1000);
+        return this.wait(1);
     }
 
     /**
-     * Gets the text from the selected location.
+     * Returns the text from the selected location.
      *
      * @returns {promise.Promise<string>}
      */
@@ -210,7 +210,7 @@ class CareerPage {
      */
     async search() {
         await this.searchButton.click();
-        await browser.wait(() => {
+        return browser.wait(() => {
             return this.searchResultItems.count().then(n => n > 0);
         }, GLOBAL_TIMEOUT);
     }
@@ -223,7 +223,7 @@ class CareerPage {
      */
     async applyForPosition(position) {
         this.applyButtonOfPosition(position).click();
-        await browser.wait(ec.visibilityOf(this.jobDescription), GLOBAL_TIMEOUT);
+        return browser.wait(ec.visibilityOf(this.jobDescription), GLOBAL_TIMEOUT);
     }
 }
 
