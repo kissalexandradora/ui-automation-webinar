@@ -1,7 +1,7 @@
 'use strict';
 const CareerPage = require("../../pageObjects/careerPage");
 const careerPage = new CareerPage();
-const data = require('../../testData.json');
+const data = require('../../data/testData.json');
 const utils = require('../../utils');
 
 
@@ -58,7 +58,7 @@ describe('Search for job', function () {
             });
 
             it('should have job with proper location', () => {
-                return expect(careerPage.locationOfPosition(position).getText()).to.eventually.include(testData["city"].toUpperCase());
+                return expect(careerPage.locationOfPosition(position).getText()).to.eventually.include(testData["country"].toUpperCase());
             });
 
             it('should have apply button for job', () => {

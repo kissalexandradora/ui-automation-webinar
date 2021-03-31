@@ -40,56 +40,125 @@ class CareerPage {
     }
 
     /**
-     * Waits 0.5 sec for the cookie bar and if it's append accept it.
-     * If the cookie bar not appends continues the test load.
+     * Waits 0.5 sec for the cookie bar and if it's append, accept it.
+     * If the cookie bar not appends, continues the test execution.
      *
      * @returns {PromiseLike<void>}
      */
-    acceptCookies() {
+    async acceptCookies() {
         const cookieButton = this.acceptCookiesButton;
-        return browser.wait(ec.elementToBeClickable(cookieButton), 500).then(() => {
-            cookieButton.click();
-        }, e => {console.log("Cookie bar is not visible.")});
+        try {
+            await browser.wait(ec.elementToBeClickable(cookieButton), 500);
+            return cookieButton.click();
+        } catch (error) {
+            console.log("Cookie bar is not visible.");
+        }
     }
 
     /**
-     * Load the webpage and waits for the logo to be clickable.
-     * If the page is loaded, checks the cookie bar and accept is if necessary.
+     * Loads the webpage and waits for the logo to be clickable.
+     * When the page is loaded, checks if the cookie bar is clickable and accept it, if necessary.
      *
      * @returns {PromiseLike<void>}
      */
-    load() {
-        browser.get('https://www.epam.com/careers');
-        browser.wait(ec.elementToBeClickable(this.logo), GLOBAL_TIMEOUT);
+    async load() {
+        await browser.get('https://www.epam.com/careers');
+        await expect(browser.getCurrentUrl()).to.eventually.equal('https://www.epam.com/careers');
+        await browser.wait(ec.elementToBeClickable(this.logo), GLOBAL_TIMEOUT);
         return this.acceptCookies();
     }
 
     /**
+     * Returns with a promise, that resolves if the location is displayed
+     * and rejects if the location is not displayed.
+     *
+     * @param location
+     * @returns {PromiseLike<void>}
+     */
+    isLocationDisplayed(location) {
+        return location.isDisplayed();
+    }
+
+    /**
+     * If the country is not displayed in the location filter box
+     * or the promise is rejected, clicks the location filter box.
+     *
+     * @param countryOption
+     * @returns {PromiseLike<void | void>}
+     */
+    async clickLocationFilterBox(countryOption) {
+        try {
+            const displayed = await this.isLocationDisplayed(countryOption);
+            if (!displayed) {
+                return this.locationFilterBox.click();
+            }
+        } catch (error) {
+            return this.locationFilterBox.click();
+        }
+    }
+
+    /**
+     * If the city is not displayed in the location filter box
+     * or if the promise is rejected, clicks the country option.
+     *
+     * @param cityOption
+     * @param countryOption
+     * @returns {PromiseLike<void>}
+     */
+    async clickCountryOption(cityOption, countryOption) {
+        try {
+            const displayed = await this.isLocationDisplayed(cityOption);
+            if (!displayed) {
+                return countryOption.click();
+            }
+        } catch (error) {
+            return countryOption.click();
+        }
+    }
+
+    /**
+     * Waits for a specified time.
+     *
+     * @param sec: Waiting time in second.
+     * @returns {promise.Promise<void>}
+     */
+    wait(sec) {
+        return browser.sleep(sec * 1000);
+    }
+
+    /**
+     * Scrolls to the specified element.
+     *
+     * @param element
+     * @returns {promise.Promise<void>}
+     */
+    async scrollToElement(element) {
+        this.wait(2);
+        await browser.actions().mouseMove(element).perform();
+        return this.wait(2);
+    }
+
+    /**
      * This function made for the test automation of search bar in the careers page.
-     * If the location filter box is not open opens it and click the specified country and city.
+     * If the location filter box is not open, opens it.
+     * Scrolls to the specified city and clicks it.
+     * If the city is not displayed clicks to the city dropdown and selects the specified city.
      *
      * @param country: The name of the country we want to search for.
      * @param city: The name of the city we want to search for.
      * @returns {promise.Promise<void>}
      */
-    selectCityInCountry(country, city) {
+    async selectCityInCountry(country, city) {
         const countryOption = this.getCountryOfLocation(country);
-        countryOption.isDisplayed().then(displayed => {
-            if (!displayed) {
-                this.locationFilterBox.click();
-            }
-        }, e => this.locationFilterBox.click());
+        await this.clickLocationFilterBox(countryOption);
+        await this.scrollToElement(countryOption);
         const cityOption = this.getCityOfLocation(city);
-        cityOption.isDisplayed().then(displayed => {
-            if (!displayed) {
-                countryOption.click();
-            }
-        }, e => countryOption.click());
+        await this.clickCountryOption(cityOption, countryOption);
         return cityOption.click();
     }
 
     /**
-     * Returns if the department dropdown is displayed.
+     * Checks whether the department dropdown is displayed.
      *
      * @returns {promise.Promise<boolean>}
      */
@@ -98,36 +167,35 @@ class CareerPage {
     }
 
     /**
-     * Opens the department dropdown if the departments are not visible.
+     * Opens the department dropdown, if the departments are not visible.
      *
      * @returns {promise.Promise<void>}
      */
-    clickDepartmentDropdown() {
-        return this.isDepartmentDropdownDisplayed().then(async displayed => {
-            if (!displayed) {
-                await this.departmentSelect.click();
-            }
-        });
+    async clickDepartmentDropdown() {
+        const displayed = await this.isDepartmentDropdownDisplayed();
+        if (!displayed) {
+            return this.departmentSelect.click();
+        }
     }
 
     /**
-     * Checks if the specified department is displayed.
-     * If it's displayed click it. If not, opens the toggle and click it.
+     * Checks whether the specified department is displayed.
+     * If it's displayed, clicks it. If not, opens the toggle and clicks it.
      *
      * @param department
      * @returns {promise.Promise<void>}
      */
     async toggleDepartment(department) {
-        this.clickDepartmentDropdown()
-        browser.wait(ec.visibilityOf(this.departmentDropdown), GLOBAL_TIMEOUT);
+        this.clickDepartmentDropdown();
+        await browser.wait(ec.visibilityOf(this.departmentDropdown), GLOBAL_TIMEOUT);
         const departmentCheckbox = this.getDepartmentCheckbox(department);
-        browser.sleep(1000);
+        await this.wait(1);
         await departmentCheckbox.click();
-        return browser.sleep(1000);
+        return this.wait(1);
     }
 
     /**
-     * Gets the text from the selected location.
+     * Returns the text from the selected location.
      *
      * @returns {promise.Promise<string>}
      */
@@ -140,21 +208,21 @@ class CareerPage {
      *
      * @returns {promise.Promise<boolean>}
      */
-    search() {
-        this.searchButton.click();
+    async search() {
+        await this.searchButton.click();
         return browser.wait(() => {
             return this.searchResultItems.count().then(n => n > 0);
         }, GLOBAL_TIMEOUT);
     }
 
     /**
-     * Apply for the specified position and checks that the description is correct.
+     * Applies for the specified position and checks that the description is correct.
      *
      * @param position: The position that we want to apply for.
      * @returns {WebElementPromise}
      */
-    applyForPosition(position) {
-        this.applyButtonOfPosition(position).click();
+    async applyForPosition(position) {
+        await this.applyButtonOfPosition(position).click();
         return browser.wait(ec.visibilityOf(this.jobDescription), GLOBAL_TIMEOUT);
     }
 }
