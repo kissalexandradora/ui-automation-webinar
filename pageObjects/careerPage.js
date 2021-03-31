@@ -222,7 +222,7 @@ class CareerPage {
      * @returns {WebElementPromise}
      */
     async applyForPosition(position) {
-        this.applyButtonOfPosition(position).click();
+        await this.applyButtonOfPosition(position).click();
         return browser.wait(ec.visibilityOf(this.jobDescription), GLOBAL_TIMEOUT);
     }
 }
