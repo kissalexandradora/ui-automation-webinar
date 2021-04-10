@@ -21,6 +21,6 @@
     "require-it": "^2.0.0"
   },
   "devDependencies": {
-    "screenshot-reporter": "^1.1.331"
+    "protractor-jasmine2-screenshot-reporter": "^0.5.0"
   }
 }
