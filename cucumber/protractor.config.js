@@ -4,9 +4,16 @@ const GLOBAL_TIMEOUT = 40e3;
 
 exports.config = {
     specs: './features/**/*.feature',
-    capabilities: {
-        browserName: 'chrome'
-    },
+    // capabilities: {
+    //     browserName: 'chrome',
+    //     shardTestFiles: true,
+    //     maxInstances: 2,
+    //     specs: [example1.js, example2.js]
+    // },
+    multiCapabilities: [
+        { browserName: 'chrome' },
+        { browserName: 'firefox' }
+    ],
     directConnect: true,
     cucumberOpts: {
         require: ['./step_definitions/**/*.js'],

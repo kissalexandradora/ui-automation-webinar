@@ -19,8 +19,5 @@
     "protractor": "^7.0.0",
     "protractor-cucumber-framework": "^6.2.1",
     "require-it": "^2.0.0"
-  },
-  "devDependencies": {
-    "protractor-jasmine2-screenshot-reporter": "^0.5.0"
   }
 }
