@@ -1,8 +1,10 @@
 'use strict';
 
-const { Given, When, Then, setDefaultTimeout } = require('cucumber');
+const { Given, When, Then, setDefaultTimeout, After, Status} = require('cucumber');
 const CareerPage = require('../../pageObjects/careerPage');
 const careerPage = new CareerPage();
+const { writeScreenShot } = require("../../utils/screenshot");
+const { getFormattedTime } = require("../../utils/date");
 
 setDefaultTimeout(GLOBAL_TIMEOUT);
 
@@ -50,7 +52,7 @@ Then(/^the (.+) should be selected in the department filter box$/, department =>
 
 Then(/^there should be a job offer for (.+) position$/, positionName => {
     const position = careerPage.getResultByPosition(positionName);
-    return expect(careerPage.nameOfPosition(position).getText()).to.eventually.contain(positionName);
+    return expect(careerPage.nameOfPosition(position).getText()).to.eventually.contain("testScreenshot");
 });
 
 Then(/^the location of the (.+) position should be (.+)$/, (positionName, country) => {
@@ -62,3 +64,10 @@ Then(/^the location of the (.+) position should be (.+)$/, (positionName, countr
 Then(/^the description of the job offer should contain the (.+) position name$/, positionName => {
     return expect(careerPage.jobDescription.getText()).to.eventually.contain(positionName);
 });
+
+After(async scenario => {
+    if(scenario.result.status === Status.FAILED) {
+        const screenShotFail = await browser.takeScreenshot();
+        await writeScreenShot(screenShotFail, "./reports/images/" + "screenshot-" + getFormattedTime() + ".png")
+    }
+})
