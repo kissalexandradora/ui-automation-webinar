@@ -1,7 +1,9 @@
 'use strict';
 
+const fs = require('fs');
 const GLOBAL_TIMEOUT = 40e3;
 
+//Extend base config
 exports.config = {
     specs: './features/**/*.feature',
     // capabilities: {
@@ -10,9 +12,13 @@ exports.config = {
     //     maxInstances: 2,
     //     specs: [example1.js, example2.js]
     // },
+    //CLI!
     multiCapabilities: [
-        { browserName: 'chrome' },
-        { browserName: 'firefox' }
+        {
+            browserName: 'chrome'
+        }, {
+            browserName: 'firefox'
+        }
     ],
     directConnect: true,
     cucumberOpts: {
@@ -26,11 +32,9 @@ exports.config = {
     onPrepare: async function () {
         global.GLOBAL_TIMEOUT = GLOBAL_TIMEOUT;
         global.ec = protractor.ExpectedConditions;
-
         const chai = require('chai');
         chai.use(require('chai-as-promised'));
         global.expect = chai.expect;
-
         protractor.ElementFinder.prototype.isVisible = function () {
             return this.isPresent().then(present => {
                 if (present) {
