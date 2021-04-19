@@ -3,8 +3,6 @@
 const { Given, When, Then, setDefaultTimeout, After, Status} = require('cucumber');
 const CareerPage = require('../../pageObjects/careerPage');
 const careerPage = new CareerPage();
-const { writeScreenShot } = require("../../utils/screenshot");
-const { getFormattedTime } = require("../../utils/date");
 
 setDefaultTimeout(GLOBAL_TIMEOUT);
 
@@ -65,9 +63,3 @@ Then(/^the description of the job offer should contain the (.+) position name$/,
     return expect(careerPage.jobDescription.getText()).to.eventually.contain(positionName);
 });
 
-After(async scenario => {
-    if(scenario.result.status === Status.FAILED) {
-        const screenShotFail = await browser.takeScreenshot();
-        await writeScreenShot(screenShotFail, "./reports/images/" + "screenshot-" + getFormattedTime() + ".png")
-    }
-})
