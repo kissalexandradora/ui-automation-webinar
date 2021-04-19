@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const GLOBAL_TIMEOUT = 40e3;
 
 //Extend base config
@@ -13,11 +12,24 @@ exports.config = {
     //     specs: [example1.js, example2.js]
     // },
     //CLI!
+    // multiCapabilities: [
+    //     {
+    //         browserName: 'chrome'
+    //     }, {
+    //         browserName: 'firefox'
+    //     }
+    // ],
+    seleniumAddress: 'http://localhost:3000/',
     multiCapabilities: [
         {
-            browserName: 'chrome'
+            browserName: 'chrome',
+            platform: 'LINUX',
         }, {
-            browserName: 'firefox'
+            browserName: 'firefox',
+            platform: 'WIN10'
+        }, {
+            browserName: 'microsoftedge',
+            platform: 'WIN7'
         }
     ],
     directConnect: true,
