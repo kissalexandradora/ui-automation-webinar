@@ -5,20 +5,6 @@ const GLOBAL_TIMEOUT = 40e3;
 //Extend base config
 exports.config = {
     specs: './features/**/*.feature',
-    // capabilities: {
-    //     browserName: 'chrome',
-    //     shardTestFiles: true,
-    //     maxInstances: 2,
-    //     specs: [example1.js, example2.js]
-    // },
-    //CLI!
-    // multiCapabilities: [
-    //     {
-    //         browserName: 'chrome'
-    //     }, {
-    //         browserName: 'firefox'
-    //     }
-    // ],
     seleniumAddress: 'http://localhost:3000/',
     multiCapabilities: [
         {
@@ -27,9 +13,6 @@ exports.config = {
         }, {
             browserName: 'firefox',
             platform: 'WIN10'
-        }, {
-            browserName: 'microsoftedge',
-            platform: 'WIN7'
         }
     ],
     directConnect: true,
