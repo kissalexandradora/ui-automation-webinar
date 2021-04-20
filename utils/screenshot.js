@@ -1,8 +1,6 @@
 const fs = require('fs');
-//const dayjs = require("dayjs");
+const dayjs = require("dayjs");
 const { toCamelCase }  = require("./stringFormatter");
-const { getFormattedTime } = require("./date");
-
 
 const writeScreenShot = (data, filename) => {
     const stream = fs.createWriteStream(filename);
@@ -11,5 +9,5 @@ const writeScreenShot = (data, filename) => {
 }
 exports.takeScreenshot = async scenario => {
     const screenshot = await browser.takeScreenshot();
-    await writeScreenShot(screenshot, `./reports/screenshots/${toCamelCase(scenario.pickle.name)}-${getFormattedTime()}.png`);
+    await writeScreenShot(screenshot, `./reports/screenshots/${toCamelCase(scenario.pickle.name)}-${dayjs().format("YYYY-MM-D-H-m-s")}.png`);
 }
