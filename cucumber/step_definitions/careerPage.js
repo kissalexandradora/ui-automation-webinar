@@ -1,6 +1,6 @@
 'use strict';
 
-const { Given, When, Then, setDefaultTimeout, After, Status} = require('cucumber');
+const { Given, When, Then, setDefaultTimeout } = require('cucumber');
 const CareerPage = require('../../pageObjects/careerPage');
 const careerPage = new CareerPage();
 
@@ -50,7 +50,7 @@ Then(/^the (.+) should be selected in the department filter box$/, department =>
 
 Then(/^there should be a job offer for (.+) position$/, positionName => {
     const position = careerPage.getResultByPosition(positionName);
-    return expect(careerPage.nameOfPosition(position).getText()).to.eventually.contain("testScreenshot");
+    return expect(careerPage.nameOfPosition(position).getText()).to.eventually.contain(positionName);
 });
 
 Then(/^the location of the (.+) position should be (.+)$/, (positionName, country) => {
