@@ -4,7 +4,6 @@ const GLOBAL_TIMEOUT = 40e3;
 
 exports.config = {
     specs: './features/**/*.feature',
-    seleniumAddress: 'http://localhost:3000/',
     multiCapabilities: [
         {
             browserName: 'chrome',
