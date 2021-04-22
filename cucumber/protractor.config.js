@@ -2,7 +2,6 @@
 
 const GLOBAL_TIMEOUT = 40e3;
 
-//Extend base config
 exports.config = {
     specs: './features/**/*.feature',
     seleniumAddress: 'http://localhost:3000/',
