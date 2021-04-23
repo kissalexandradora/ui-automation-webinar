@@ -2,5 +2,4 @@ node_modules
 *.log*
 .idea
 cucumber.json
-package-lock.json
 reports
