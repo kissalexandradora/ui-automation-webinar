@@ -4,9 +4,13 @@ const GLOBAL_TIMEOUT = 40e3;
 
 exports.config = {
     specs: './features/**/*.feature',
-    capabilities: {
-        browserName: 'chrome'
-    },
+    multiCapabilities: [
+        {
+            browserName: 'chrome'
+        }, {
+            browserName: 'firefox'
+        }
+    ],
     directConnect: true,
     cucumberOpts: {
         require: ['./step_definitions/**/*.js'],
@@ -19,11 +23,9 @@ exports.config = {
     onPrepare: async function () {
         global.GLOBAL_TIMEOUT = GLOBAL_TIMEOUT;
         global.ec = protractor.ExpectedConditions;
-
         const chai = require('chai');
         chai.use(require('chai-as-promised'));
         global.expect = chai.expect;
-
         protractor.ElementFinder.prototype.isVisible = function () {
             return this.isPresent().then(present => {
                 if (present) {

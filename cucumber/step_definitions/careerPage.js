@@ -62,3 +62,4 @@ Then(/^the location of the (.+) position should be (.+)$/, (positionName, countr
 Then(/^the description of the job offer should contain the (.+) position name$/, positionName => {
     return expect(careerPage.jobDescription.getText()).to.eventually.contain(positionName);
 });
+

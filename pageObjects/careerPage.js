@@ -1,4 +1,5 @@
 'use strict'
+const firefoxSupport = require('protractor-firefox-support');
 
 class CareerPage {
     constructor() {
@@ -134,7 +135,11 @@ class CareerPage {
      */
     async scrollToElement(element) {
         this.wait(2);
-        await browser.actions().mouseMove(element).perform();
+        /**
+         * The protractor mouseMove action does not work in case of Firefox browser.
+         * This line uses the protractor-firefox-support NPM package.
+         */
+        await browser.executeScript(firefoxSupport.mouseMove, element);
         return this.wait(2);
     }
 

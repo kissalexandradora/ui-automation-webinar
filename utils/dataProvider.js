@@ -1,0 +1,1 @@
+exports.getRandomData = data => data[Math.floor(Math.random() * data.length)];

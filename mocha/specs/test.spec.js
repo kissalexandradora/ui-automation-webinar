@@ -2,12 +2,11 @@
 const CareerPage = require("../../pageObjects/careerPage");
 const careerPage = new CareerPage();
 const data = require('../../data/testData.json');
-const utils = require('../../utils');
-
+const { getRandomData } = require("../../utils/dataProvider");
 
 describe('Search for job', function () {
     this.timeout(GLOBAL_TIMEOUT);
-    const testData = utils.getRandomData(data.jobSearchDetails);
+    const testData = getRandomData(data.jobSearchDetails);
     console.log(testData)
     beforeEach(() => careerPage.load())
 
