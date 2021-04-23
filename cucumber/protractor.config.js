@@ -6,11 +6,9 @@ exports.config = {
     specs: './features/**/*.feature',
     multiCapabilities: [
         {
-            browserName: 'chrome',
-            platform: 'LINUX',
+            browserName: 'chrome'
         }, {
-            browserName: 'firefox',
-            platform: 'WIN10'
+            browserName: 'firefox'
         }
     ],
     directConnect: true,
