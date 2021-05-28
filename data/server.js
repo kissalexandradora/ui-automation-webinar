@@ -1,11 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-
 /**
  * Gives access to the .env file.
  */
 require('dotenv/config');
+
+/**
+ * Import routes.
+ */
+const jobSearchDetailsRoute = require('./routes/testData/jobSearchDetails');
 
 /**
  * The app const gives the ability to create routes
@@ -15,9 +19,10 @@ require('dotenv/config');
  */
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('SUCCESS');
-});
+/**
+ * With the use middleware the /testData/jobSearchDetails route uses the jobSearchDetailsRoute.
+ */
+app.use('/testData/jobSearchDetails', jobSearchDetailsRoute);
 
 /**
  * Connect the server to the MongoDB Atlas database.
@@ -35,8 +40,7 @@ mongoose.connect(
 
 /**
  * Specifies the port.
- * You can access the server through the http://localhost:PORT/ url.
+ * You can access the server through the http://localhost:3000/ url.
  * @type {number}
  */
-const PORT = 3000;
-app.listen(PORT);
+app.listen(3000);
