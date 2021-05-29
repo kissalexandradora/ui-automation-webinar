@@ -19,4 +19,4 @@ const JobSearchDetailsSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('JobSearchDetails', JobSearchDetailsSchema);
+module.exports = mongoose.model('JobSearchDetail', JobSearchDetailsSchema);
