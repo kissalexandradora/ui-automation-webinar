@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const bodyParser = require('body-parser');
 /**
  * Gives access to the .env file.
  */
@@ -18,6 +18,11 @@ const jobSearchDetailsRoute = require('./routes/testData/jobSearchDetails');
  * @type {*|Express}
  */
 const app = express();
+
+/**
+ * Converts all the post data to JSON.
+ */
+app.use(bodyParser.json());
 
 /**
  * With the use middleware the /testData/jobSearchDetails route uses the jobSearchDetailsRoute.
