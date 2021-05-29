@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+/**
+ * Defines the expected format of the data.
+ */
 const JobSearchDetailsSchema = mongoose.Schema({
     country: {
         type: String,
