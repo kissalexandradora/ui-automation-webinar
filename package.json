@@ -8,8 +8,7 @@
     "wd:update": "webdriver-manager update",
     "clean": "rimraf ./reports/screenshots/*",
     "test:cucumber": "npm run clean && protractor ./cucumber/protractor.config.js",
-    "test:mocha": "protractor ./mocha/protractor.config.js",
-    "start:server": "nodemon data/server.js"
+    "test:mocha": "nodemon data/server.js && protractor ./mocha/protractor.config.js"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +17,7 @@
     "body-parser": "^1.19.0",
     "chai": "^4.3.0",
     "chai-as-promised": "^7.1.1",
+    "concurrently": "^6.2.0",
     "cucumber": "^6.0.5",
     "dayjs": "^1.10.4",
     "dotenv": "^10.0.0",
