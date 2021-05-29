@@ -1,13 +1,22 @@
 'use strict';
-const CareerPage = require("../../pageObjects/careerPage");
+const CareerPage = require('../../pageObjects/careerPage');
 const careerPage = new CareerPage();
-const data = require('../../data/testData.json');
-const { getRandomData } = require("../../utils/dataProvider");
+const { getRandomTestData } = require('../../data/dataProvider')
 
 describe('Search for job', function () {
     this.timeout(GLOBAL_TIMEOUT);
-    const testData = getRandomData(data.jobSearchDetails);
-    console.log(testData)
+    let testData;
+
+    /**
+     * Before the first test case execution,
+     * the before hook gets the random test data
+     * from the data provider.
+     */
+    before(async () => {
+        testData = await getRandomTestData();
+        console.log(testData);
+    });
+
     beforeEach(() => careerPage.load())
 
     describe('Careers page', () => {
@@ -44,9 +53,9 @@ describe('Search for job', function () {
         describe('Searching', () => {
             let position;
 
-            beforeEach(() => {
-                careerPage.selectCityInCountry(testData["country"], testData["city"]);
-                careerPage.toggleDepartment(testData["department"]);
+            beforeEach(async () => {
+                await careerPage.selectCityInCountry(testData["country"], testData["city"]);
+                await careerPage.toggleDepartment(testData["department"]);
                 return careerPage.search().then(() => {
                     position = careerPage.getResultByPosition(testData["positionName"]);
                 });
