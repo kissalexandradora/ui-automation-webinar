@@ -8,7 +8,9 @@
     "wd:update": "webdriver-manager update",
     "clean": "rimraf ./reports/screenshots/*",
     "test:cucumber": "npm run clean && protractor ./cucumber/protractor.config.js",
-    "test:mocha": "nodemon data/server.js && protractor ./mocha/protractor.config.js"
+    "test:mocha": "protractor ./mocha/protractor.config.js",
+    "startServer": "node data/server.js",
+    "test:mochaAndMongoDB": "run-s tab:test:mocha tab:startServer"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +28,8 @@
     "mongoose": "^5.12.11",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "parallelshell": "^3.0.2",
     "protractor": "^7.0.0",
     "protractor-cucumber-framework": "^6.2.1",
     "protractor-firefox-support": "^2.0.0",
