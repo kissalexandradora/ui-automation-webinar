@@ -4,13 +4,6 @@ pipeline {
   tools {nodejs "node14"}
 
   stages {
-
-    stage('Cloning Git') {
-      steps {
-        git 'https://github.com/keserukristof/ui-automation-webinar'
-      }
-    }
-
     stage('Install dependencies') {
       steps {
         bat 'npm install'
