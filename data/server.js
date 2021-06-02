@@ -37,7 +37,7 @@ mongoose.connect(
      * Use the database connection credentials from the .env file.
      * The useNewUrlParser is needed to avoid warnings.
      */
-    process.env.DB_CONNECTION,
+    'mongodb://localhost:27017/',
     { useNewUrlParser: true },
     () => {
     console.log('Connected to database.');
@@ -45,7 +45,7 @@ mongoose.connect(
 
 /**
  * Specifies the port.
- * You can access the server through the http://localhost:3000/ url.
+ * You can access the server through the http://localhost:27017/ url.
  * @type {number}
  */
 app.listen(3000);

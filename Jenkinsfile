@@ -10,6 +10,12 @@ pipeline {
       }
     }
 
+    stage('Start MongoDB') {
+      steps {
+        bat 'mongod'
+      }
+    }
+
     stage('Start server') {
       steps {
         bat 'npm run startServer'
