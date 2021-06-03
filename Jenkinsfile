@@ -26,14 +26,10 @@ pipeline {
                 stage('Test') {
                     steps {
                         bat 'npm run test:mocha'
+                        currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
+                        sleep(1)
                     }
                 }
-            }
-        }
-        stage('Stop build') {
-            steps {
-                currentBuild.result = 'SUCCESS'
-                return
             }
         }
     }
