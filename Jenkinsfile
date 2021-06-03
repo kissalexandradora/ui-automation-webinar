@@ -26,12 +26,14 @@ pipeline {
                 stage('Test') {
                     steps {
                         bat 'npm run test:mocha'
-                        script {
-                            currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
-                            sleep(1)   // Interrupt is not blocking and does not take effect immediately.
-                        }
                     }
                 }
+            }
+        }
+        stage('Stop build') {
+            script {
+                currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
+                sleep(1)   // Interrupt is not blocking and does not take effect immediately.
             }
         }
     }
