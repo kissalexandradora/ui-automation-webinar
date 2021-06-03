@@ -13,7 +13,9 @@ pipeline {
             parallel {
                 stage('Start MongoDB') {
                     steps {
-                        bat 'mongod'
+                        timeout(time: 4, unit: 'MINUTES') {
+                            bat 'mongod'
+                        }
                         script {
                             if (currentBuild.result == 'SUCCESS') {
                                 return
@@ -24,7 +26,10 @@ pipeline {
 
                 stage('Start server') {
                     steps {
-                        bat 'npm run startServer'
+                        timeout(time: 4, unit: 'MINUTES') {
+                            bat 'npm run startServer'
+                        }
+
                     }
                 }
 
