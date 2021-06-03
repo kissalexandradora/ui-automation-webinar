@@ -26,7 +26,9 @@ pipeline {
                 stage('Test') {
                     steps {
                         bat 'npm run test:mocha'
-                        @currentBuild.result = 'SUCCESS'
+                        script {
+                            currentBuild.result = 'SUCCESS'
+                        }
                     }
                 }
             }
