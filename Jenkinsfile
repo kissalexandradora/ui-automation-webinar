@@ -28,6 +28,7 @@ pipeline {
                         bat 'npm run test:mocha'
                         script {
                             currentBuild.result = 'SUCCESS'
+                            return
                         }
                     }
                 }
