@@ -14,8 +14,10 @@ pipeline {
                 stage('Start MongoDB') {
                     steps {
                         bat 'mongod'
-                        if (currentBuild.result == 'SUCCESS') {
-                            return
+                        script {
+                            if (currentBuild.result == 'SUCCESS') {
+                                return
+                            }
                         }
                     }
                 }
