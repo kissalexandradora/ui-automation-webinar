@@ -4,14 +4,13 @@ pipeline {
         nodejs "node14"
     }
     stages {
+        stage('Install dependencies') {
+            steps {
+                bat 'npm install'
+            }
+        }
         stage('Build UI-automation') {
             parallel {
-                stage('Install dependencies') {
-                    steps {
-                        bat 'npm install'
-                    }
-                }
-
                 stage('Start MongoDB') {
                     steps {
                         bat 'mongod'
