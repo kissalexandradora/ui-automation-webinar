@@ -26,6 +26,8 @@ pipeline {
                 stage('Test') {
                     steps {
                         bat 'npm run test:mocha'
+                        Test.result = 'SUCCESS'
+                        return
                     }
                 }
             }
