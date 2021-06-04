@@ -16,11 +16,6 @@ pipeline {
                         timeout(time: 4, unit: 'MINUTES') {
                             bat 'mongod'
                         }
-                        script {
-                            if (currentBuild.result == 'SUCCESS') {
-                                return
-                            }
-                        }
                     }
                 }
 
@@ -29,17 +24,12 @@ pipeline {
                         timeout(time: 4, unit: 'MINUTES') {
                             bat 'npm run startServer'
                         }
-
                     }
                 }
 
                 stage('Test') {
                     steps {
                         bat 'npm run test:mocha'
-                        script {
-                            currentBuild.result = 'SUCCESS'
-                            return
-                        }
                     }
                 }
             }
