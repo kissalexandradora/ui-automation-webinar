@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 });
 
 /**
- * Deletes a specific jobSearchDetail
+ * Deletes a specific jobSearchDetail.
  */
 router.delete('/:jobSearchDetailId', async (req, res) => {
     const removedPost = await JobSearchDetail.remove({ _id:req.params.jobSearchDetailId });
