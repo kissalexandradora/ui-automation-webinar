@@ -3,7 +3,7 @@ const router = express.Router();
 const JobSearchDetail = require('../../models/testData/JobSearchDetails');
 
 /**
- * Return all the jobSearchDetails.
+ * Returns all the jobSearchDetails.
  */
 router.get('/', async (req, res) => {
     const jobSearchDetails = await JobSearchDetail.find();
@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
 });
 
 /**
- * Return a specific jobSearchDetail.
+ * Returns a specific jobSearchDetail.
  */
 router.get('/:jobSearchDetailId', async (req, res) => {
     const jobSearchDetail = await JobSearchDetail.findById(req.params.jobSearchDetailId);
@@ -19,7 +19,7 @@ router.get('/:jobSearchDetailId', async (req, res) => {
 });
 
 /**
- * Submit a jobSearchDetail.
+ * Submits a jobSearchDetail.
  */
 router.post('/', async (req, res) => {
     const jobSearchDetail = new JobSearchDetail({
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 });
 
 /**
- * Delete a specific jobSearchDetail
+ * Deletes a specific jobSearchDetail
  */
 router.delete('/:jobSearchDetailId', async (req, res) => {
     const removedPost = await JobSearchDetail.remove({ _id:req.params.jobSearchDetailId });
