@@ -17,7 +17,7 @@ class CareerPage {
         this.selectedDepartments = element.all(by.css('.filter-tag'));
         this.departmentDropdown = element(by.css('.multi-select-dropdown'));
 
-        this.searchResultItems = element.all(by.css('.search-result__list'));
+        this.searchResultItems = element.all(by.css('.search-result__item'));
         this.nameOfPosition = position => position.element(by.css('.search-result__item-name'));
         this.locationOfPosition = position => position.element(by.css('.search-result__location'));
         this.applyButtonOfPosition = position => position.element(by.css('.search-result__item-apply'));
@@ -33,11 +33,24 @@ class CareerPage {
         this.getResultByPosition = name => this.searchResultItems.filter(item => {
             this.waitForPositionVisibility(item);
             return this.nameOfPosition(item).getText().then(position => position.trim().includes(name));
+            /*
+            return this.nameOfPosition(item).getText().then( position => {
+                //console.log(position.trim());
+                //console.log(name);
+                return position.trim() === name;
+            })
+            */
         }).first();
 
-        this.jobDescription = element(by.css('.recruiting-page__top-description strong'));
+        this.jobDescription = element(by.css('.recruiting-page__top-description'));
         this.acceptCookiesButton = element(by.css('.cookie-disclaimer__button'));
         this.cookieBanner = element(by.css('.cookie-disclaimer-ui'));
+        
+        this.openToRelocationCheckbox =this.searchForm.element(by.css('.job-search__filter-list label[for*=relocation]'));
+        this.officeCheckbox = this.searchForm.element(by.css('.job-search__filter-list label[for*=office]'));
+        this.remoteCheckbox = this.searchForm.element(by.css('.job-search__filter-list label[for*=remote]'));
+        this.checkbox = this.searchForm.element(by.css('.job-search__filter-list'));
+
     }
 
     /**
@@ -63,7 +76,7 @@ class CareerPage {
      * @returns {PromiseLike<void>}
      */
     async load() {
-        await browser.get('https://www.epam.com/careers');
+        await browser.get('https://www.epam.com/careers/');
         await expect(browser.getCurrentUrl()).to.eventually.equal('https://www.epam.com/careers');
         await browser.wait(ec.elementToBeClickable(this.logo), GLOBAL_TIMEOUT);
         return this.acceptCookies();
@@ -230,6 +243,45 @@ class CareerPage {
         await this.applyButtonOfPosition(position).click();
         return browser.wait(ec.visibilityOf(this.jobDescription), GLOBAL_TIMEOUT);
     }
+
+    
+    /*
+    * Add random
+    */
+    addrandom() {
+        var list = ["relocation", "office", "remote"];
+        var item = list[Math.floor(Math.random() * list.length)];
+        //console.log("addrandom", item);
+        return item;
+    }
+
+    /**
+    * @param choose:
+    * @returns {promise.Promise<boolean>}
+    */
+    async clickedCheckbox(choose) {
+        /*
+        const result = this.addrandom();
+        if (result === "relocation") {
+            this.openToRelocationCheckbox(result).click();
+        } else if (result === "office") {
+            this.officeCheckbox(result).click();
+        } else if (result === "remote") {
+            this.remoteCheckbox(result).click();
+        }
+        return this.wait(1);
+        */
+
+        if (choose === "relocation") {
+            this.openToRelocationCheckbox.click();
+        } else if (choose === "office") {
+            this.officeCheckbox.click();
+        } else if (choose === "remote") {
+            this.remoteCheckbox.click();
+        }
+        return this.wait(1);
+    }
+
 }
 
 module.exports = CareerPage;
