@@ -45,12 +45,11 @@ class CareerPage {
         this.jobDescription = element(by.css('.recruiting-page__top-description'));
         this.acceptCookiesButton = element(by.css('.cookie-disclaimer__button'));
         this.cookieBanner = element(by.css('.cookie-disclaimer-ui'));
-        
+
         this.openToRelocationCheckbox =this.searchForm.element(by.css('.job-search__filter-list label[for*=relocation]'));
         this.officeCheckbox = this.searchForm.element(by.css('.job-search__filter-list label[for*=office]'));
         this.remoteCheckbox = this.searchForm.element(by.css('.job-search__filter-list label[for*=remote]'));
         this.checkbox = this.searchForm.element(by.css('.job-search__filter-list'));
-
     }
 
     /**
@@ -244,34 +243,20 @@ class CareerPage {
         return browser.wait(ec.visibilityOf(this.jobDescription), GLOBAL_TIMEOUT);
     }
 
-    
     /*
     * Add random
     */
     addrandom() {
         var list = ["relocation", "office", "remote"];
         var item = list[Math.floor(Math.random() * list.length)];
-        //console.log("addrandom", item);
         return item;
     }
 
     /**
-    * @param choose:
+    * @param choose
     * @returns {promise.Promise<boolean>}
     */
     async clickedCheckbox(choose) {
-        /*
-        const result = this.addrandom();
-        if (result === "relocation") {
-            this.openToRelocationCheckbox(result).click();
-        } else if (result === "office") {
-            this.officeCheckbox(result).click();
-        } else if (result === "remote") {
-            this.remoteCheckbox(result).click();
-        }
-        return this.wait(1);
-        */
-
         if (choose === "relocation") {
             this.openToRelocationCheckbox.click();
         } else if (choose === "office") {
@@ -281,7 +266,6 @@ class CareerPage {
         }
         return this.wait(1);
     }
-
 }
 
 module.exports = CareerPage;

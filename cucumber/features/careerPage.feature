@@ -24,18 +24,19 @@ Feature: EPAM job searching
     Then the description of the job offer should contain the <PositionName> position name
 
     Examples:
-      | Country | City     | Department                | PositionName              |
-      | Hungary | Debrecen | Software Test Engineering | Test Automation Engineer  |
-      | Belarus | Minsk    | Software Architecture     | Architect                 |
+      | Country | City     | Department                | PositionName             |
+      | Hungary | Debrecen | Software Test Engineering | Test Automation Engineer |
+      | Belarus | Minsk    | Software Architecture     | Architect                |
 
 
   Scenario Outline: Searching for a job - <PositonName>
     And the checkbox should be visible
 
-	  When the <Choose> is selected in the checkbox
-	  Then the <Choose> should be selected in the checkbox
+    When the <Choose> is selected in the checkbox
+    Then the <Choose> should be selected in the checkbox
+    And the search button should be visible
 
-    And the search button is clicked
+    When the search button is clicked
     Then there should be a job offer for <PositionName> position
 
     When the apply button of the <PositionName> position is clicked on
@@ -45,14 +46,15 @@ Feature: EPAM job searching
       | Choose     | PositionName |
       | relocation | Architect    |
       | office     | Architect    |
-	    | remote     | Specialist   |
+      | remote     | Specialist   |
 
 
   Scenario Outline: Searching for a job and apply
     And the checkbox should be visible
 
-	  When the <Choose> is selected in the checkbox
+    When the <Choose> is selected in the checkbox
     Then the <Choose> should be selected in the checkbox
+    And the search button should be visible
 
     When the search button is clicked
     Then there should be a job offer for <PositionName> position
